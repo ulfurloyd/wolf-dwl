@@ -3,4 +3,62 @@ dwl
 *-protocol.c
 *-protocol.h
 .ccls-cache
-config.h
+
+somebar/compile_commands.json
+somebar/build
+somebar/.cache
+
+# Prerequisites
+somebar/someblocks/*.d
+
+# Object files
+somebar/someblocks/*.o
+somebar/someblocks/*.ko
+somebar/someblocks/*.obj
+somebar/someblocks/*.elf
+
+# Linker output
+somebar/someblocks/*.ilk
+somebar/someblocks/*.map
+somebar/someblocks/*.exp
+
+# Precompiled Headers
+somebar/someblocks/*.gch
+somebar/someblocks/*.pch
+
+# Libraries
+somebar/someblocks/*.lib
+somebar/someblocks/*.a
+somebar/someblocks/*.la
+somebar/someblocks/*.lo
+
+# Shared objects (inc. Windows DLLs)
+somebar/someblocks/*.dll
+somebar/someblocks/*.so
+somebar/someblocks/*.so.*
+somebar/someblocks/*.dylib
+
+# Executables
+somebar/someblocks/*.exe
+somebar/someblocks/*.out
+somebar/someblocks/*.app
+somebar/someblocks/*.i*86
+somebar/someblocks/*.x86_64
+somebar/someblocks/*.hex
+somebar/someblocks/someblocks
+
+# Debug files
+somebar/someblocks/*.dSYM/
+somebar/someblocks/*.su
+somebar/someblocks/*.idb
+somebar/someblocks/*.pdb
+
+# Kernel Module Compile Results
+somebar/someblocks/*.mod*
+somebar/someblocks/*.cmd
+somebar/someblocks/.tmp_versions/
+somebar/someblocks/modules.order
+somebar/someblocks/Module.symvers
+somebar/someblocks/Mkfile.old
+somebar/someblocks/dkms.conf
+
