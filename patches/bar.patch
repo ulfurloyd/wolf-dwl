@@ -913,7 +913,9 @@ index 12f441e..bf340d8 100644
 +			(float[])COLOR(colors[c->isurgent ? SchemeUrg : SchemeNorm][ColBorder]));
  		c->border[i]->node.data = c;
  	}
- 
+
+#NOTE: here 
+
 @@ -1791,7 +2031,7 @@ mapnotify(struct wl_listener *listener, void *data)
  	} else {
  		applyrules(c);
