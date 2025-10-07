@@ -1,0 +1,113 @@
+--- dwl.c
++++ dwl.c
+@@ -80,14 +83,17 @@
+ #define VISIBLEON(C, M)         ((M) && (C)->mon == (M) && ((C)->tags & (M)->tagset[(M)->seltags]))
+ #define LENGTH(X)               (sizeof X / sizeof X[0])
+ #define END(A)                  ((A) + LENGTH(A))
+-#define TAGMASK                 ((1u << TAGCOUNT) - 1)
++#define TAGMASK                 ((1u << LENGTH(tags)) - 1)
+ #define LISTEN(E, L, H)         wl_signal_add((E), ((L)->notify = (H), (L)))
+ #define LISTEN_STATIC(E, H)     do { struct wl_listener *_l = ecalloc(1, sizeof(*_l)); _l->notify = (H); wl_signal_add((E), _l); } while (0)
++#define TEXTW(mon, text)        (drwl_font_getwidth(mon->drw, text) + mon->lrpad)
+ 
+ /* enums */
++enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+ enum { CurNormal, CurPressed, CurMove, CurResize }; /* cursor */
+ enum { XDGShell, LayerShell, X11 }; /* client types */
+ enum { LyrBg, LyrBottom, LyrTile, LyrFloat, LyrTop, LyrFS, LyrOverlay, LyrBlock, NUM_LAYERS }; /* scene layers */
++enum { ClkTagBar, ClkLtSymbol, ClkStatus, ClkTitle, ClkClient, ClkRoot }; /* clicks */
+ 
+ typedef union {
+ 	int i;
+@@ -767,17 +901,34 @@ buttonpress(struct wl_listener *listener, void *data)
+ 		if (locked)
+ 			break;
+ 
++		if (!c && !exclusive_focus &&
++			(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
++			(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
++			cx = (cursor->x - selmon->m.x) * selmon->wlr_output->scale;
++			do
++				x += TEXTW(selmon, tags[i]);
++			while (cx >= x && ++i < LENGTH(tags));
++			if (i < LENGTH(tags)) {
++				click = ClkTagBar;
++				arg.ui = 1 << i;
++			} else if (cx < x + TEXTW(selmon, selmon->ltsymbol))
++				click = ClkLtSymbol;
++			else if (cx > selmon->b.width - (TEXTW(selmon, stext) - selmon->lrpad + 2)) {
++				click = ClkStatus;
++			} else
++				click = ClkTitle;
++		}
++
+ 		/* Change focus if the button was _pressed_ over a client */
+ 		xytonode(cursor->x, cursor->y, NULL, &c, NULL, NULL, NULL);
+-		if (c && (!client_is_unmanaged(c) || client_wants_focus(c)))
++		if (click == ClkClient && (!client_is_unmanaged(c) || client_wants_focus(c)))
+ 			focusclient(c, 1);
+ 
+ 		keyboard = wlr_seat_get_keyboard(seat);
+ 		mods = keyboard ? wlr_keyboard_get_modifiers(keyboard) : 0;
+ 		for (b = buttons; b < END(buttons); b++) {
+-			if (CLEANMASK(mods) == CLEANMASK(b->mod) &&
+-					event->button == b->button && b->func) {
+-				b->func(&b->arg);
++			if (CLEANMASK(mods) == CLEANMASK(b->mod) && event->button == b->button && click == b->click && b->func) {
++				b->func(click == ClkTagBar && b->arg.i == 0 ? &arg : &b->arg);
+ 				return;
+ 			}
+ 		}
+@@ -869,6 +1022,12 @@ cleanupmon(struct wl_listener *listener, void *data)
+ 			wlr_layer_surface_v1_destroy(l->layer_surface);
+ 	}
+ 
++	for (i = 0; i < LENGTH(m->pool); i++)
++		wlr_buffer_drop(&m->pool[i]->base);
++
++	drwl_setimage(m->drw, NULL);
++	drwl_destroy(m->drw);
++
+ 	wl_list_remove(&m->destroy.link);
+ 	wl_list_remove(&m->frame.link);
+ 	wl_list_remove(&m->link);
+@@ -1648,13 +1889,13 @@ focusclient(Client *c, int lift)
+ 		/* Don't change border color if there is an exclusive focus or we are
+ 		 * handling a drag operation */
+ 		if (!exclusive_focus && !seat->drag)
+-			client_set_border_color(c, focuscolor);
++			client_set_border_color(c, (float[])COLOR(colors[SchemeSel][ColBorder]));
+ 	}
+ 
+ 	/* Deactivate old client if focus is changing */
+ 	if (old && (!c || client_surface(c) != old)) {
+ 		/* If an overlay is focused, don't focus or activate the client,
+-		 * but only update its position in fstack to render its border with focuscolor
++		 * but only update its position in fstack to render its border with its color
+ 		 * and focus it after the overlay is closed. */
+ 		if (old_client_type == LayerShell && wlr_scene_node_coords(
+ 					&old_l->scene->node, &unused_lx, &unused_ly)
+@@ -1665,12 +1906,11 @@ focusclient(Client *c, int lift)
+ 		/* Don't deactivate old client if the new one wants focus, as this causes issues with winecfg
+ 		 * and probably other clients */
+ 		} else if (old_c && !client_is_unmanaged(old_c) && (!c || !client_wants_focus(c))) {
+-			client_set_border_color(old_c, bordercolor);
+-
++			client_set_border_color(old_c, (float[])COLOR(colors[SchemeNorm][ColBorder]));
+ 			client_activate_surface(old, 0);
+ 		}
+ 	}
+-	printstatus();
++	drawbars();
+ 
+ 	if (!c) {
+ 		/* With no client, all we have left is to clear focus */
+@@ -1983,7 +2223,7 @@ mapnotify(struct wl_listener *listener, void *data)
+ 
+ 	for (i = 0; i < 4; i++) {
+ 		c->border[i] = wlr_scene_rect_create(c->scene, 0, 0,
+-				c->isurgent ? urgentcolor : bordercolor);
++			(float[])COLOR(colors[c->isurgent ? SchemeUrg : SchemeNorm][ColBorder]));
+ 		c->border[i]->node.data = c;
+ 	}
+ 
