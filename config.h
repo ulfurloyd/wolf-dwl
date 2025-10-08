@@ -39,7 +39,7 @@ static const char *const autostart[] = {
     // "dwl-bar", NULL,
     // "someblocks", "-s", "/run/user/1000/dwl-bar-0", NULL,
     // "/home/wolf/.local/bin/dwl-bar.sh", NULL,
-    "swww-daemon", NULL,
+    // "swww-daemon", NULL,
     "mako", NULL,
     NULL /* terminate */
 };
