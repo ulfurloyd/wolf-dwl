@@ -114,34 +114,13 @@ static Fnt *
 drwl_font_create(Drwl *drwl, size_t count,
 		const char *names[static count], const char *attributes)
 {
-	fprintf(stderr, "[drwl font debug] Attempting to load %zu fonts with attributes: '%s'\n",
-	        count, attributes);
-	for (size_t i = 0; i < count; i++)
-		fprintf(stderr, "  Font[%zu]: %s\n", i, names[i]);
-
 	Fnt *font = fcft_from_name(count, names, attributes);
-
-	if (!font) {
-		fprintf(stderr, "[drwl font debug] fcft_from_name() failed to load any fonts!\n");
-	} else {
-		fprintf(stderr, "[drwl font debug] fcft_from_name() successfully loaded a font!\n");
-	}
 
 	if (drwl)
 		drwl_setfont(drwl, font);
 
 	return font;
 }
-
-// static Fnt *
-// drwl_font_create(Drwl *drwl, size_t count,
-// 		const char *names[static count], const char *attributes)
-// {
-// 	Fnt *font = fcft_from_name(count, names, attributes);
-// 	if (drwl)
-// 		drwl_setfont(drwl, font);
-// 	return font;
-// }
 
 static void
 drwl_font_destroy(Fnt *font)

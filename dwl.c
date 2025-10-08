@@ -2789,6 +2789,8 @@ setup(void)
 	dpy = wl_display_create();
 	event_loop = wl_display_get_event_loop(dpy);
 
+    drwl_init();
+
 	/* The backend is a wlroots feature which abstracts the underlying input and
 	 * output hardware. The autocreate option will choose the most suitable
 	 * backend based on the current environment, such as opening an X11 window
@@ -3319,20 +3321,8 @@ updatebar(Monitor *m)
 
     drwl_font_destroy(m->drw->font);
     snprintf(fontattrs, sizeof(fontattrs), "dpi=%.2f", 96. * m->wlr_output->scale);
-    printf("[debug] Loading fonts: count=%zu\n", LENGTH(fonts));
-    for (size_t j = 0; j < LENGTH(fonts); j++)
-    printf("  Font[%zu]: '%s'\n", j, fonts[j]);
-    printf("  Font attrs: '%s'\n", fontattrs);
-    if (!(drwl_font_create(m->drw, LENGTH(fonts), fonts, fontattrs))) {
-    fprintf(stderr, "[dwl font debug] Failed to load fonts:\n");
-	for (size_t j = 0; j < LENGTH(fonts); j++)
-        fprintf(stderr, "  [%zu] %s\n", j, fonts[j]);
-	fprintf(stderr, "  Font attributes: %s\n", fontattrs);
-	fflush(stderr);
-	die("Could not load font");
-}
-	// if (!(drwl_font_create(m->drw, LENGTH(fonts), fonts, fontattrs)))
-	// 	die("Could not load font");
+	if (!(drwl_font_create(m->drw, LENGTH(fonts), fonts, fontattrs)))
+		die("Could not load font");
 
 	m->b.scale = m->wlr_output->scale;
 	m->lrpad = m->drw->font->height;
@@ -3592,7 +3582,6 @@ xwaylandready(struct wl_listener *listener, void *data)
 int
 main(int argc, char *argv[])
 {
-    fcft_init(FCFT_LOG_COLORIZE_NEVER, 0, FCFT_LOG_CLASS_DEBUG);
 	char *startup_cmd = NULL;
 	int c;
 

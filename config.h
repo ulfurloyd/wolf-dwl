@@ -18,7 +18,7 @@ static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
 // static const char *fonts[]                 = {"monospace:size=12"};
-static const char *fonts[]                 = {"Iosevka NFM:size=12"};
+static const char *fonts[]                 = {"Fira Code Nerd Font Mono:size=12"};
 // static const float rootcolor[]             = COLOR(0x222222ff);
 static const float bordercolor[]           = COLOR(0x444444ff);
 static const float focuscolor[]            = COLOR(0x005577ff);
