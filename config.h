@@ -36,10 +36,7 @@ static int log_level = WLR_ERROR;
 
 /* Autostart */
 static const char *const autostart[] = {
-    // "dwl-bar", NULL,
-    // "someblocks", "-s", "/run/user/1000/dwl-bar-0", NULL,
-    // "/home/wolf/.local/bin/dwl-bar.sh", NULL,
-    // "swww-daemon", NULL,
+    "swww-daemon", NULL,
     "mako", NULL,
     NULL /* terminate */
 };
@@ -71,6 +68,8 @@ static const MonitorRule monrules[] = {
 	/* example of a HiDPI laptop monitor:
 	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 	*/
+	{ "DP-1",    0.55f,  1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   0,  0 },
+	{ "HDMI-A-1",0.55f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   1921,  0 },
 	/* defaults */
 	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
 };

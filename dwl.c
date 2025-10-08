@@ -3569,7 +3569,7 @@ sethints(struct wl_listener *listener, void *data)
 	printstatus();
 
 	if (c->isurgent && surface && surface->mapped)
-		client_set_border_color(c, urgentcolor);
+		client_set_border_color(c, COLOR(colors[SchemeUrg][2]));
 }
 
 void
