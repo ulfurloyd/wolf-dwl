@@ -2791,6 +2791,9 @@ setup(void)
 
     drwl_init();
 
+	status_event_source = wl_event_loop_add_fd(wl_display_get_event_loop(dpy),
+		STDIN_FILENO, WL_EVENT_READABLE, statusin, NULL);
+
 	/* The backend is a wlroots feature which abstracts the underlying input and
 	 * output hardware. The autocreate option will choose the most suitable
 	 * backend based on the current environment, such as opening an X11 window
@@ -3020,6 +3023,31 @@ startdrag(struct wl_listener *listener, void *data)
 	LISTEN_STATIC(&drag->icon->events.destroy, destroydragicon);
 }
 
+int
+statusin(int fd, unsigned int mask, void *data)
+{
+	char status[256];
+	ssize_t n;
+
+	if (mask & WL_EVENT_ERROR)
+		die("status in event error");
+	if (mask & WL_EVENT_HANGUP)
+		wl_event_source_remove(status_event_source);
+
+	n = read(fd, status, sizeof(status) - 1);
+	if (n < 0 && errno != EWOULDBLOCK)
+		die("read:");
+
+	status[n] = '\0';
+	status[strcspn(status, "\n")] = '\0';
+
+	strncpy(stext, status, sizeof(stext));
+	drawbars();
+
+	return 0;
+}
+
+
 void
 tag(const Arg *arg)
 {
@@ -3090,6 +3118,15 @@ tile(Monitor *m)
 		i++;
 	}
 }
+
+void
+togglebar(const Arg *arg)
+{
+	wlr_scene_node_set_enabled(&selmon->scene_buffer->node,
+		!selmon->scene_buffer->node.enabled);
+	arrangelayers(selmon);
+}
+
 
 void
 togglefloating(const Arg *arg)
