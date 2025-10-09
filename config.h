@@ -45,6 +45,7 @@ static const char *const autostart[] = {
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor */
 	/* examples: */
+	{ NULL,        "fsel-launcher",          0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
 	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
 };
@@ -147,11 +148,14 @@ static const char *menucmd[] = { "wmenu-run",
     "-f", "FiraCode nerd Font 12", "-l", "10", NULL };
 static const char *bemenucmd[] = { "bemenu-run",
     "-c", "-H30", "-M10", "-B1", "-W0.6", "-l10", NULL };
+static const char *j4menu[] = { "j4-dmenu-desktop", "--dmenu=fsel", NULL };
+static const char *runmenu[] = { "alacritty", "--title", "fsel-launcher", "-e", "fsel", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
-	{ MODKEY,                    XKB_KEY_space,      spawn,          {.v = bemenucmd} },
+	// { MODKEY,                    XKB_KEY_space,      spawn,          {.v = runmenu} },
+	{ MODKEY,                    XKB_KEY_space,      spawn,          SHCMD("~/.local/bin/wmenuwal") },
 	{ MODKEY,                    XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
