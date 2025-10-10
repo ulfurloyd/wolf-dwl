@@ -9,7 +9,7 @@ do
         if [[ $? == 0 ]]
         then
             tooltip=$(echo "$tooltip" | sed -E "s/\s+/ /g")
-            echo "$text"
+            echo "$text "
             exit
         fi
     fi
