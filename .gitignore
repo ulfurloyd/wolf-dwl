@@ -13,56 +13,56 @@ dwl-bar/config.h
 dwl-bar/*-protocol.*
 
 # Prerequisites
-dwl-bar/someblocks/*.d
+someblocks/*.d
 
 # Object files
-dwl-bar/someblocks/*.o
-dwl-bar/someblocks/*.ko
-dwl-bar/someblocks/*.obj
-dwl-bar/someblocks/*.elf
+someblocks/*.o
+someblocks/*.ko
+someblocks/*.obj
+someblocks/*.elf
 
 # Linker output
-dwl-bar/someblocks/*.ilk
-dwl-bar/someblocks/*.map
-dwl-bar/someblocks/*.exp
+someblocks/*.ilk
+someblocks/*.map
+someblocks/*.exp
 
 # Precompiled Headers
-dwl-bar/someblocks/*.gch
-dwl-bar/someblocks/*.pch
+someblocks/*.gch
+someblocks/*.pch
 
 # Libraries
-dwl-bar/someblocks/*.lib
-dwl-bar/someblocks/*.a
-dwl-bar/someblocks/*.la
-dwl-bar/someblocks/*.lo
+someblocks/*.lib
+someblocks/*.a
+someblocks/*.la
+someblocks/*.lo
 
 # Shared objects (inc. Windows DLLs)
-dwl-bar/someblocks/*.dll
-dwl-bar/someblocks/*.so
-dwl-bar/someblocks/*.so.*
-dwl-bar/someblocks/*.dylib
+someblocks/*.dll
+someblocks/*.so
+someblocks/*.so.*
+someblocks/*.dylib
 
 # Executables
-dwl-bar/someblocks/*.exe
-dwl-bar/someblocks/*.out
-dwl-bar/someblocks/*.app
-dwl-bar/someblocks/*.i*86
-dwl-bar/someblocks/*.x86_64
-dwl-bar/someblocks/*.hex
-dwl-bar/someblocks/someblocks
+someblocks/*.exe
+someblocks/*.out
+someblocks/*.app
+someblocks/*.i*86
+someblocks/*.x86_64
+someblocks/*.hex
+someblocks/someblocks
 
 # Debug files
-dwl-bar/someblocks/*.dSYM/
-dwl-bar/someblocks/*.su
-dwl-bar/someblocks/*.idb
-dwl-bar/someblocks/*.pdb
+someblocks/*.dSYM/
+someblocks/*.su
+someblocks/*.idb
+someblocks/*.pdb
 
 # Kernel Module Compile Results
-dwl-bar/someblocks/*.mod*
-dwl-bar/someblocks/*.cmd
-dwl-bar/someblocks/.tmp_versions/
-dwl-bar/someblocks/modules.order
-dwl-bar/someblocks/Module.symvers
-dwl-bar/someblocks/Mkfile.old
-dwl-bar/someblocks/dkms.conf
+someblocks/*.mod*
+someblocks/*.cmd
+someblocks/.tmp_versions/
+someblocks/modules.order
+someblocks/Module.symvers
+someblocks/Mkfile.old
+someblocks/dkms.conf
 
