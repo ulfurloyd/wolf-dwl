@@ -186,6 +186,8 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_braceleft,         tagmon,             {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_braceright,        tagmon,             {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY,                    XKB_KEY_m,                 spawn,              SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+    { MODKEY,                    XKB_KEY_F12,               spawn,              SHCMD("grimblast --notify --freeze copysave area")},
+    { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_F12,               spawn,              SHCMD("grimblast --notify --freeze copysave output")},
 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                                0),
 	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                                    1),
 	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                            2),
