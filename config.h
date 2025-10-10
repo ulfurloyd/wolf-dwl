@@ -17,6 +17,8 @@ static const unsigned int gappx            = 10; /* gap pixel between windows */
 static const unsigned int borderpx         = 2;  /* border pixel of windows */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
+static const int vertpad                   = 5; /* vertical padding of bar */
+static const int sidepad                   = 5; /* horizontal padding of bar */
 // static const char *fonts[]                 = {"monospace:size=12"};
 static const char *fonts[]                 = {"Fira Code Nerd Font Mono:size=12"};
 // static const float rootcolor[]             = COLOR(0x222222ff);
