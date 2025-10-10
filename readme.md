@@ -5,4 +5,7 @@
 
 This is my custom build of dwl, the suckless window manager for wayland.
 
-\[WIP]
+## Patches Applied
+- autostart
+- bar
+- barpadding
